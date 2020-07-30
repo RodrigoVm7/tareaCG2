@@ -32,36 +32,44 @@ classdef Tarea2 < handle
             Idilatada = zeros(tamx, tamy, 3);
             for x=1+eex:tamx+eex
                 for y=1+eey:tamy+eey
-                    ventanaImagen = Ireplica(x-eex:x+eex, y-eey:y+eey, :);
+                    ventanaImagen = double(Ireplica(x-eex:x+eex, y-eey:y+eey,:));
                     ventana = Idistancias(x-eex:x+eex, y-eey:y+eey);
                     ventana = ventana.*ee;
                     maximo = max(ventana(:));
                     [cordX, cordY] = find(ventana == maximo);
                     if(numel(cordX) == 1) %Caso cuando solo hay un solo minimo.
-                        Idilatada(x-eex, y-eex, 1) = uint8(ventanaImagen(cordX(1), cordY(1), 1));
-                        Idilatada(x-eex, y-eex, 2) = uint8(ventanaImagen(cordX(1), cordY(1), 2));
-                        Idilatada(x-eex, y-eex, 3) = uint8(ventanaImagen(cordX(1), cordY(1), 3));
+                        Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(1), cordY(1), 1);
+                        Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(1), cordY(1), 2);
+                        Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(1), cordY(1), 3);
                     else
                         %Caso en que hay mas de un minimo.
                         %Proyeccion Ortogonal.
+                        vectorDistancias = [];
                         for k=1: numel(cordX)      %recorremos los puntos minimos encontrados
-                            puntoR3= [obj.imOriginal(cordX(k), cordY(k), 1), obj.imOriginal(cordX(k), cordY(k), 2), obj.imOriginal(cordX(k), cordY(k), 3)]; %obtenemos el punto original (RGB)
+                            puntoR3= [ventanaImagen(cordX(k), cordY(k), 1), ventanaImagen(cordX(k), cordY(k), 2), ventanaImagen(cordX(k), cordY(k), 3)]; %obtenemos el punto original (RGB)
                             coef= puntoR3(1) + puntoR3(2) + puntoR3(3);     
                             xEcuacion= coef/3;
                             vectorDistancias(k)= sqrt( (xEcuacion-puntoR3(1))^2 + (xEcuacion-puntoR3(2))^2 + (xEcuacion-puntoR3(3))^2 );  %guardamos las distancias calculadas 
                         end
                         cantidadMaximos = find(vectorDistancias == max(vectorDistancias(:)));   %averiguamos la cantidad de distancias maximas.
                         if(numel(cantidadMaximos) == 1) %Caso cuando hay una distancia maxima de la proyeccion ortogonal.
-                            Idilatada(x-eex, y-eex, 1) = uint8(ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 1));
-                            Idilatada(x-eex, y-eex, 2) = uint8(ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 2));
-                            Idilatada(x-eex, y-eex, 3) = uint8(ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 3));
+                            Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 1);
+                            Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 2);
+                            Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 3);
                         else
                             % caso en que hay mas de una distancia maxima.
                             %Distancia al punto de interes...
+                            
+                            %Por ahora estoy poniendo como maximo el
+                            %primer valor encontrado, pero es para probar nomas xd
+                            Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 1);
+                            Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 2);
+                            Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 3);
                         end
                     end
                 end
             end
+            obj.imProcesada = uint8(Idilatada);
         end
         
         
@@ -73,3 +81,6 @@ classdef Tarea2 < handle
         end
     end
 end
+
+%img = imread('lena.png');
+%ee = ones(3,3);
