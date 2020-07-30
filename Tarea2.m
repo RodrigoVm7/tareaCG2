@@ -32,14 +32,15 @@ classdef Tarea2 < handle
             Idilatada = zeros(tamx, tamy, 3);
             for x=1+eex:tamx+eex
                 for y=1+eey:tamy+eey
+                    ventanaImagen = Ireplica(x-eex:x+eex, y-eey:y+eey, :);
                     ventana = Idistancias(x-eex:x+eex, y-eey:y+eey);
                     ventana = ventana.*ee;
                     maximo = max(ventana(:));
                     [cordX, cordY] = find(ventana == maximo);
                     if(numel(cordX) == 1) %Caso cuando solo hay un solo minimo.
-                        Idilatada(x-eex, y-eex, 1) = obj.imOriginal(cordX(1), cordY(1), 1);
-                        Idilatada(x-eex, y-eex, 2) = obj.imOriginal(cordX(1), cordY(1), 2);
-                        Idilatada(x-eex, y-eex, 3) = obj.imOriginal(cordX(1), cordY(1), 3);
+                        Idilatada(x-eex, y-eex, 1) = uint8(ventanaImagen(cordX(1), cordY(1), 1));
+                        Idilatada(x-eex, y-eex, 2) = uint8(ventanaImagen(cordX(1), cordY(1), 2));
+                        Idilatada(x-eex, y-eex, 3) = uint8(ventanaImagen(cordX(1), cordY(1), 3));
                     else
                         %Caso en que hay mas de un minimo.
                         %Proyeccion Ortogonal.
@@ -51,9 +52,9 @@ classdef Tarea2 < handle
                         end
                         cantidadMaximos = find(vectorDistancias == max(vectorDistancias(:)));   %averiguamos la cantidad de distancias maximas.
                         if(numel(cantidadMaximos) == 1) %Caso cuando hay una distancia maxima de la proyeccion ortogonal.
-                            Idilatada(x-eex, y-eex, 1) = obj.imOriginal(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 1);
-                            Idilatada(x-eex, y-eex, 2) = obj.imOriginal(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 2);
-                            Idilatada(x-eex, y-eex, 3) = obj.imOriginal(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 3);
+                            Idilatada(x-eex, y-eex, 1) = uint8(ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 1));
+                            Idilatada(x-eex, y-eex, 2) = uint8(ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 2));
+                            Idilatada(x-eex, y-eex, 3) = uint8(ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 3));
                         else
                             % caso en que hay mas de una distancia maxima.
                             %Distancia al punto de interes...
