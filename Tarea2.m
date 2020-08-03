@@ -85,6 +85,3 @@ classdef Tarea2 < handle
         end
     end
 end
-
-%img = imread('lena.png');
-%ee = ones(3,3);
