@@ -37,13 +37,14 @@ classdef Tarea2 < handle
                     ventana = ventana.*ee;
                     maximo = max(ventana(:));
                     [cordX, cordY] = find(ventana == maximo);
+                    %Busqueda de un maximo a traves de las distancias eulideanas
                     if(numel(cordX) == 1) %Caso cuando solo hay un solo minimo.
                         Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(1), cordY(1), 1);
                         Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(1), cordY(1), 2);
                         Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(1), cordY(1), 3);
                     else
                         %Caso en que hay mas de un minimo.
-                        %Proyeccion Ortogonal.
+                        %Uso de la Proyeccion Ortogonal.
                         vectorDistancias = [];
                         for k=1: numel(cordX)      %recorremos los puntos minimos encontrados
                             puntoR3= [ventanaImagen(cordX(k), cordY(k), 1), ventanaImagen(cordX(k), cordY(k), 2), ventanaImagen(cordX(k), cordY(k), 3)]; %obtenemos el punto original (RGB)
@@ -59,12 +60,15 @@ classdef Tarea2 < handle
                         else
                             % caso en que hay mas de una distancia maxima.
                             %Distancia al punto de interes...
-                            
-                            %Por ahora estoy poniendo como maximo el
-                            %primer valor encontrado, pero es para probar nomas xd
-                            Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(cantidadMinimos(1)), cordY(cantidadMinimos(1)), 1);
-                            Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(cantidadMinimos(1)), cordY(cantidadMinimos(1)), 2);
-                            Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(cantidadMinimos(1)), cordY(cantidadMinimos(1)), 3);
+                            distanciasPuntoInteres = [];
+                            for k=1:numel(cantidadMaximos)
+                                puntoR3 = [ventanaImagen(cordX(cantidadMaximos(k)), cordY(cantidadMaximos(k)), 1), ventanaImagen(cordX(cantidadMaximos(k)), cordY(cantidadMaximos(k)), 2), ventanaImagen(cordX(cantidadMaximos(k)), cordY(cantidadMaximos(k)), 3)];
+                                distanciasPuntoInteres(k) = sqrt( (ventanaImagen(1+eex,1+eey,1)-puntoR3(1))^2 + (ventanaImagen(1+eex,1+eey,2)-puntoR3(2))^2 + (ventanaImagen(1+eex,1+eey,3)-puntoR3(3))^2 );
+                            end
+                            minPtoInteres = find(distanciasPuntoInteres == min(distanciasPuntoInteres(:)));
+                            Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(minPtoInteres(1)), cordY(minPtoInteres(1)), 1);
+                            Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(minPtoInteres(1)), cordY(minPtoInteres(1)), 2);
+                            Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(1)), cordY(minPtoInteres(1)), 3);
                         end
                     end
                 end
