@@ -51,20 +51,20 @@ classdef Tarea2 < handle
                             xEcuacion= coef/3;
                             vectorDistancias(k)= sqrt( (xEcuacion-puntoR3(1))^2 + (xEcuacion-puntoR3(2))^2 + (xEcuacion-puntoR3(3))^2 );  %guardamos las distancias calculadas 
                         end
-                        cantidadMinimos = find(vectorDistancias == min(vectorDistancias(:)));   %averiguamos la cantidad de distancias minimas.
-                        if(numel(cantidadMinimos) == 1) %Caso cuando hay una distancia maxima de la proyeccion ortogonal.
-                            Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(cantidadMinimos(1)), cordY(cantidadMinimos(1)), 1);
-                            Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(cantidadMinimos(1)), cordY(cantidadMinimos(1)), 2);
-                            Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(cantidadMinimos(1)), cordY(cantidadMinimos(1)), 3);
+                        cantidadMaximo = find(vectorDistancias == min(vectorDistancias(:)));   %averiguamos la cantidad de distancias minimas.
+                        if(numel(cantidadMaximos) == 1) %Caso cuando hay una distancia maxima de la proyeccion ortogonal.
+                            Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 1);
+                            Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 2);
+                            Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 3);
                         else
                             % caso en que hay mas de una distancia maxima.
                             %Distancia al punto de interes...
                             
                             %Por ahora estoy poniendo como maximo el
                             %primer valor encontrado, pero es para probar nomas xd
-                            Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(cantidadMinimos(1)), cordY(cantidadMinimos(1)), 1);
-                            Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(cantidadMinimos(1)), cordY(cantidadMinimos(1)), 2);
-                            Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(cantidadMinimos(1)), cordY(cantidadMinimos(1)), 3);
+                            Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 1);
+                            Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 2);
+                            Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(cantidadMaximos(1)), cordY(cantidadMaximos(1)), 3);
                         end
                     end
                 end
