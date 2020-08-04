@@ -117,7 +117,7 @@ classdef Tarea2 < handle
                     ventana = Idistancias(x-eex:x+eex, y-eey:y+eey);
                     ventana = ventana.*ee;
                     minimo = min(ventana(:));
-                    [cordX, cordY] = find(ventana == maximo);
+                    [cordX, cordY] = find(ventana == minimo);
                     %Busqueda de un maximo a traves de las distancias eulideanas
                     if(numel(cordX) == 1) %Caso cuando solo hay un solo minimo.
                         Ierosionada(x-eex, y-eey, 1) = ventanaImagen(cordX(1), cordY(1), 1);
