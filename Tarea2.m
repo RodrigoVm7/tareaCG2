@@ -52,23 +52,37 @@ classdef Tarea2 < handle
                             xEcuacion= coef/3;
                             vectorDistancias(k)= sqrt( (xEcuacion-puntoR3(1))^2 + (xEcuacion-puntoR3(2))^2 + (xEcuacion-puntoR3(3))^2 );  %guardamos las distancias calculadas 
                         end
-                        cantidadMinimos = find(vectorDistancias == min(vectorDistancias(:)));   %averiguamos la cantidad de distancias minimas.
-                        if(numel(cantidadMinimos) == 1) %Caso cuando hay una distancia maxima de la proyeccion ortogonal.
-                            Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(cantidadMinimos(1)), cordY(cantidadMinimos(1)), 1);
-                            Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(cantidadMinimos(1)), cordY(cantidadMinimos(1)), 2);
-                            Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(cantidadMinimos(1)), cordY(cantidadMinimos(1)), 3);
+                        vectorMinimos = find(vectorDistancias == min(vectorDistancias(:)));   %averiguamos distancias minimas.
+                        if(numel(vectorMinimos) == 1) %Caso cuando hay una distancia maxima de la proyeccion ortogonal.
+                            Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(vectorMinimos(1)), cordY(vectorMinimos(1)), 1);
+                            Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(vectorMinimos(1)), cordY(vectorMinimos(1)), 2);
+                            Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(vectorMinimos(1)), cordY(vectorMinimos(1)), 3);
                         else
                             % caso en que hay mas de una distancia maxima.
                             %Distancia al punto de interes...
-                            distanciasPuntoInteres = [];
-                            for k=1:numel(cantidadMaximos)
-                                puntoR3 = [ventanaImagen(cordX(cantidadMaximos(k)), cordY(cantidadMaximos(k)), 1), ventanaImagen(cordX(cantidadMaximos(k)), cordY(cantidadMaximos(k)), 2), ventanaImagen(cordX(cantidadMaximos(k)), cordY(cantidadMaximos(k)), 3)];
+                            distanciasPuntoInteres = [];    
+                            for k=1:numel(vectorMinimos)
+                                puntoR3 = [ventanaImagen(cordX(vectorMinimos(k)), cordY(vectorMinimos(k)), 1), ventanaImagen(cordX(vectorMinimos(k)), cordY(vectorMinimos(k)), 2), ventanaImagen(cordX(vectorMinimos(k)), cordY(vectorMinimos(k)), 3)];
                                 distanciasPuntoInteres(k) = sqrt( (ventanaImagen(1+eex,1+eey,1)-puntoR3(1))^2 + (ventanaImagen(1+eex,1+eey,2)-puntoR3(2))^2 + (ventanaImagen(1+eex,1+eey,3)-puntoR3(3))^2 );
                             end
                             minPtoInteres = find(distanciasPuntoInteres == min(distanciasPuntoInteres(:)));
-                            Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(minPtoInteres(1)), cordY(minPtoInteres(1)), 1);
-                            Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(minPtoInteres(1)), cordY(minPtoInteres(1)), 2);
-                            Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(1)), cordY(minPtoInteres(1)), 3);
+                            if(numel(minPtoInteres) == 1)
+                                Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(minPtoInteres(1)), cordY(minPtoInteres(1)), 1);
+                                Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(minPtoInteres(1)), cordY(minPtoInteres(1)), 2);
+                                Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(1)), cordY(minPtoInteres(1)), 3);
+                            else  %criterio lexicografico
+                                puntoIhsv= rgb2hsv(ventanaImagen(eex+1,eey+1, 1), ventanaImagen(eex+1,eey+1, 2), ventanaImagen(eex+1,eey+1, 3));  % convetir el punto original (rgb) a hsv
+                                distanciasHsv=[];
+                                for j=1: numel(minPtoInteres)     %convertimos los puntos minimos encontrados a hsv y luego calculamos las distncias al punto de interes tambien convertido
+                                    candidatoHsv= rgb2hsv(ventanaImagen(cordX(minPtoInteres(j)), cordY(minPtoInteres(j)),1), ventanaImagen(cordX(minPtoInteres(j)), cordY(minPtoInteres(j)),2), ventanaImagen(cordX(minPtoInteres(j)), cordY(minPtoInteres(j)),3));
+                                    distanciasHsv(j)= sqrt( (candidatoHsv(1)-puntoIhsv(1))^2 + (candidatoHsv(2)-puntoIhsv(2))^2 + (candidatoHsv(3)-puntoIhsv(3))^2); 
+                                end
+                                minHsv= find(distanciasHsv== min( distanciasHsv(:)));  %por mientras selecciona la menor distancia en hsv
+                                Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(minPtoInteres(minHsv(1))), cordY(minPtoInteres(minHsv(1))), 1);
+                                Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(minPtoInteres(minHsv(1))), cordY(minPtoInteres(minHsv(1))), 2);
+                                Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(minHsv(1))), cordY(minPtoInteres(minHsv(1))), 3);
+                             
+                            end
                         end
                     end
                 end
