@@ -1,4 +1,4 @@
-img = imread('lena.png');
+img = imread('test2.png');
 i=Tarea2(img)
 ee = ones(3,3);
 i.dilatar(ee)

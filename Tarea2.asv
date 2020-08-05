@@ -115,8 +115,9 @@ classdef Tarea2 < handle
                                             Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), cordY(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), 3);
                                         end
                                     end
-%                                     ---------
                                 else
+%                                 ---------
+                            
                                     puntoIhsv= rgb2hsv(ventanaImagen(eex+1,eey+1, 1), ventanaImagen(eex+1,eey+1, 2), ventanaImagen(eex+1,eey+1, 3));  % convetir el punto original (rgb) a hsv
                                     distanciasHsv=[];
                                     for j=1: numel(minPtoInteres)     %convertimos los puntos minimos encontrados a hsv y luego calculamos las distncias al punto de interes tambien convertido
