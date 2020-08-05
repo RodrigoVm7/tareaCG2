@@ -215,9 +215,9 @@ classdef Tarea2 < handle
                                     end
 
                                     if(numel(maxCandidatosR) == 1) % Si es el unico candidato se guarda en la imagen resultante
-                                        Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(1))), cordY(minPtoInteres(maxCandidatosR(1))), 1);
-                                        Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(1))), cordY(minPtoInteres(maxCandidatosR(1))), 2);
-                                        Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(1))), cordY(minPtoInteres(maxCandidatosR(1))), 3);
+                                        Ierosionada(x-eex, y-eey, 1) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(1))), cordY(minPtoInteres(maxCandidatosR(1))), 1);
+                                        Ierosionada(x-eex, y-eey, 2) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(1))), cordY(minPtoInteres(maxCandidatosR(1))), 2);
+                                        Ierosionada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(1))), cordY(minPtoInteres(maxCandidatosR(1))), 3);
                                     else
                                         for l=1:numel(maxCandidatosR) %Por cada candidato que tenga el R como maximo
                                             if(ventanaImagen(cordX(minPtoInteres(maxCandidatosR(l))),cordY(minPtoInteres(maxCandidatosR(l))),2) == maxCanalG)
@@ -231,9 +231,9 @@ classdef Tarea2 < handle
                                             end
                                         end
                                         
-                                            Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), cordY(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), 1);
-                                            Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), cordY(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), 2);
-                                            Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), cordY(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), 3);
+                                            Ierosionada(x-eex, y-eey, 1) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), cordY(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), 1);
+                                            Ierosionada(x-eex, y-eey, 2) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), cordY(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), 2);
+                                            Ierosionada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), cordY(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), 3);
                                       
                                     end
                                 else
