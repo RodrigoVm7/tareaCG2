@@ -109,13 +109,13 @@ classdef Tarea2 < handle
                                             else
                                             end
                                         end
-                                        if(numel(maxCandidatosG) == 1)
+                                        
                                             Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), cordY(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), 1);
                                             Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), cordY(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), 2);
                                             Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), cordY(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), 3);
-                                        end
+                                      
                                     end
-%                                     ---------
+%                                     
                                 else
                                     puntoIhsv= rgb2hsv(ventanaImagen(eex+1,eey+1, 1), ventanaImagen(eex+1,eey+1, 2), ventanaImagen(eex+1,eey+1, 3));  % convetir el punto original (rgb) a hsv
                                     distanciasHsv=[];
@@ -129,6 +129,7 @@ classdef Tarea2 < handle
                                     Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(minHsv(1))), cordY(minPtoInteres(minHsv(1))), 3);
                              
                                 end
+%                                  ---- Fin elemento Lexicografico ----
                             end
                         end
                     end
@@ -199,20 +200,62 @@ classdef Tarea2 < handle
                                 Ierosionada(x-eex, y-eey, 2) = ventanaImagen(cordX(minPtoInteres(1)), cordY(minPtoInteres(1)), 2);
                                 Ierosionada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(1)), cordY(minPtoInteres(1)), 3);
                             else  %criterio lexicografico
-                                 
-%                                 --------
-                                puntoIhsv= rgb2hsv(ventanaImagen(eex+1,eey+1, 1), ventanaImagen(eex+1,eey+1, 2), ventanaImagen(eex+1,eey+1, 3));  % convetir el punto original (rgb) a hsv
-                                distanciasHsv=[];
-                                for j=1: numel(minPtoInteres)     %convertimos los puntos minimos encontrados a hsv y luego calculamos las distncias al punto de interes tambien convertido
-                                    candidatoHsv= rgb2hsv(ventanaImagen(cordX(minPtoInteres(j)), cordY(minPtoInteres(j)),1), ventanaImagen(cordX(minPtoInteres(j)), cordY(minPtoInteres(j)),2), ventanaImagen(cordX(minPtoInteres(j)), cordY(minPtoInteres(j)),3));
-                                    distanciasHsv(j)= sqrt( (candidatoHsv(1)-puntoIhsv(1))^2 + (candidatoHsv(2)-puntoIhsv(2))^2 + (candidatoHsv(3)-puntoIhsv(3))^2); 
+                                % Caso en el que el `pixel central tiene R > G > B 
+                                if(ventanaImagen(eex+1,eey+1, 1) > ventanaImagen(eex+1,eey+1, 2) > ventanaImagen(eex+1,eey+1, 3))  % Si el R>G>B del pixel central
+                                    
+                                    maxCanalR=0;  % Maximo en canal R
+                                    maxCanalG=0;   % Maximo en canal G
+                                    maxCandidatosR=[]; % Candidatos maximos en R
+                                    maxCandidatosG=[]; % Candidatos maximos en G
+
+                                    for m=1:numel(minPtoInteres)   %Para cada candidato de distancia al punto de interes
+
+                                        if(ventanaImagen(cordX(minPtoInteres(m)), cordY(minPtoInteres(m)),1) == maxCanalR)  %Si el R del pixel de la ventana es igual al maximo encontrado
+                                            maxCandidatosR(numel(maxCandidatosR)+1)= m; %Se guarda la posicion donde se encontro el candidato en el array de candidatos
+                                        elseif(ventanaImagen(cordX(minPtoInteres(m)), cordY(minPtoInteres(m)),1) > maxCanalR) % %Si el R del pixel de la ventana es mayor al maximo encontrado
+                                            maxCandidatoR = []; % Se vacia el array de candidatos
+                                            maxCandidatoR(numel(maxCandidatosR)+1) = m; % %Se guarda la posicion donde se encontro el candidato en el array de candidatos
+                                            maxCanalR = ventanaImagen(cordX(minPtoInteres(m)), cordY(minPtoInteres(m)),1); % Se actualiza el nuevo maximo en R
+                                        else
+                                        end
+
+                                    end
+
+                                    if(numel(maxCandidatosR) == 1) % Si es el unico candidato se guarda en la imagen resultante
+                                        Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(1))), cordY(minPtoInteres(maxCandidatosR(1))), 1);
+                                        Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(1))), cordY(minPtoInteres(maxCandidatosR(1))), 2);
+                                        Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(1))), cordY(minPtoInteres(maxCandidatosR(1))), 3);
+                                    else
+                                        for l=1:numel(maxCandidatosR) %Por cada candidato que tenga el R como maximo
+                                            if(ventanaImagen(cordX(minPtoInteres(maxCandidatosR(l))),cordY(minPtoInteres(maxCandidatosR(l))),2) == maxCanalG)
+                                                maxCandidatosG(numel(maxCandidatosG)+1)= l;
+
+                                            elseif(ventanaImagen(cordX(minPtoInteres(maxCandidatosR(l))), cordY(minPtoInteres(maxCandidatosR(l))),2) > maxCanalG)
+                                                maxCandidatoG = [];
+                                                maxCandidatoG(numel(maxCandidatosG)+1) = l;
+                                                maxCanalG = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(l))), cordY(minPtoInteres(maxCandidatosR(l))),2);
+                                            else
+                                            end
+                                        end
+                                        
+                                            Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), cordY(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), 1);
+                                            Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), cordY(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), 2);
+                                            Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), cordY(minPtoInteres(maxCandidatosR(maxCandidatosG(1)))), 3);
+                                      
+                                    end
+                                else
+                                    puntoIhsv= rgb2hsv(ventanaImagen(eex+1,eey+1, 1), ventanaImagen(eex+1,eey+1, 2), ventanaImagen(eex+1,eey+1, 3));  % convetir el punto original (rgb) a hsv
+                                    distanciasHsv=[];
+                                    for j=1: numel(minPtoInteres)     %convertimos los puntos minimos encontrados a hsv y luego calculamos las distncias al punto de interes tambien convertido
+                                        candidatoHsv= rgb2hsv(ventanaImagen(cordX(minPtoInteres(j)), cordY(minPtoInteres(j)),1), ventanaImagen(cordX(minPtoInteres(j)), cordY(minPtoInteres(j)),2), ventanaImagen(cordX(minPtoInteres(j)), cordY(minPtoInteres(j)),3));
+                                        distanciasHsv(j)= sqrt( (candidatoHsv(1)-puntoIhsv(1))^2 + (candidatoHsv(2)-puntoIhsv(2))^2 + (candidatoHsv(3)-puntoIhsv(3))^2); 
+                                    end
+
+                                    minHsv= find(distanciasHsv== min( distanciasHsv(:)));  %por mientras selecciona la menor distancia en hsv
+                                    Ierosionada(x-eex, y-eey, 1) = ventanaImagen(cordX(minPtoInteres(minHsv(1))), cordY(minPtoInteres(minHsv(1))), 1);
+                                    Ierosionada(x-eex, y-eey, 2) = ventanaImagen(cordX(minPtoInteres(minHsv(1))), cordY(minPtoInteres(minHsv(1))), 2);
+                                    Ierosionada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(minHsv(1))), cordY(minPtoInteres(minHsv(1))), 3);
                                 end
-                                
-                                minHsv= find(distanciasHsv== min( distanciasHsv(:)));  %por mientras selecciona la menor distancia en hsv
-                                Ierosionada(x-eex, y-eey, 1) = ventanaImagen(cordX(minPtoInteres(minHsv(1))), cordY(minPtoInteres(minHsv(1))), 1);
-                                Ierosionada(x-eex, y-eey, 2) = ventanaImagen(cordX(minPtoInteres(minHsv(1))), cordY(minPtoInteres(minHsv(1))), 2);
-                                Ierosionada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(minHsv(1))), cordY(minPtoInteres(minHsv(1))), 3);
-                             
                             end
                         end
                     end
