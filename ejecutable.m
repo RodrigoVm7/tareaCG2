@@ -1,6 +1,8 @@
-img = imread('test2.png');
+close all;
+clear all;
+img = imread('figura8.png');
 i=Tarea2(img)
 ee = ones(3,3);
-i.dilatar(ee)
+i.erosionar(ee)
 figure, imagesc(i.obtenerImagenOriginal)
 figure, imagesc(i.obtenerImagenProcesada)

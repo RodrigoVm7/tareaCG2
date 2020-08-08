@@ -165,7 +165,7 @@ classdef Tarea2 < handle
                                             Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(minPtoInteres(maxCandidatosG(maxCandidatosR(1)))), cordY(minPtoInteres(maxCandidatosG(maxCandidatosR(1)))), 2);
                                             Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(maxCandidatosG(maxCandidatosR(1)))), cordY(minPtoInteres(maxCandidatosG(maxCandidatosR(1)))), 3);
                                         elseif (puntoRGB(3)>puntoRGB(1))   %% caso G maximo y B > R
-     
+                                            disp('hola');
                                          for l=1:numel(maxCandidatosG) %Por cada candidato que tenga el G como maximo
                                                 
                                                 
@@ -176,8 +176,16 @@ classdef Tarea2 < handle
                                                     maxCandidatosB(numel(maxCandidatosB)+1) = l;
                                                     maxCanalB = ventanaImagen(cordX(minPtoInteres(maxCandidatosG(l))), cordY(minPtoInteres(maxCandidatosG(l))),3);
                                                 end
-                                                 
-                                         end
+                                                 disp("maxCanalB");
+                                                 disp(maxCanalB);
+                                                 disp("pixel ventana")
+                                                 disp(ventanaImagen(cordX(minPtoInteres(maxCandidatosG(l))),cordY(minPtoInteres(maxCandidatosG(l))),3));
+                                            end
+% % % % % %                                 disp(ventanaImagen(cordX(minPtoInteres(maxCandidatosG(maxCandidatosB(1)))), cordY(minPtoInteres(maxCandidatosG(maxCandidatosB(1)))), 1));
+%                                             disp(Idilatada);
+%                                             disp(x-eex)
+                                            disp(maxCandidatosB(1));
+                                            disp(maxCandidatosB(1));
                                             Idilatada(x-eex, y-eey, 1) = ventanaImagen(cordX(minPtoInteres(maxCandidatosG(maxCandidatosB(1)))), cordY(minPtoInteres(maxCandidatosG(maxCandidatosB(1)))), 1);
                                             Idilatada(x-eex, y-eey, 2) = ventanaImagen(cordX(minPtoInteres(maxCandidatosG(maxCandidatosB(1)))), cordY(minPtoInteres(maxCandidatosG(maxCandidatosB(1)))), 2);
                                             Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(maxCandidatosG(maxCandidatosB(1)))), cordY(minPtoInteres(maxCandidatosG(maxCandidatosB(1)))), 3);
@@ -347,8 +355,8 @@ classdef Tarea2 < handle
                                                     if(ventanaImagen(cordX(minPtoInteres(maxCandidatosR(l))),cordY(minPtoInteres(maxCandidatosR(l))),2) == maxCanalG)
                                                         maxCandidatosG(numel(maxCandidatosG)+1)= l;
                                                     elseif(ventanaImagen(cordX(minPtoInteres(maxCandidatosR(l))), cordY(minPtoInteres(maxCandidatosR(l))),2) > maxCanalG)
-                                                        maxCandidatosG = [];
-                                                        maxCandidatosG(numel(maxCandidatosG)+1) = l;
+                                                        maxCandidatoG = [];
+                                                        maxCandidatoG(numel(maxCandidatosG)+1) = l;
                                                         maxCanalG = ventanaImagen(cordX(minPtoInteres(maxCandidatosR(l))), cordY(minPtoInteres(maxCandidatosR(l))),2);
                                                     end
                                                 end
@@ -379,8 +387,8 @@ classdef Tarea2 < handle
                                         if(ventanaImagen(cordX(minPtoInteres(m)), cordY(minPtoInteres(m)),2) == maxCanalG)  %Si el R del pixel de la ventana es igual al maximo encontrado
                                             maxCandidatosG(numel(maxCandidatosG)+1)= m; %Se guarda la posicion donde se encontro el candidato en el array de candidatos
                                         elseif(ventanaImagen(cordX(minPtoInteres(m)), cordY(minPtoInteres(m)),2) > maxCanalG) % %Si el R del pixel de la ventana es mayor al maximo encontrado
-                                            maxCandidatosG = []; % Se vacia el array de candidatos
-                                            maxCandidatosG(numel(maxCandidatosG)+1) = m; % %Se guarda la posicion donde se encontro el candidato en el array de candidatos
+                                            maxCandidatoG = []; % Se vacia el array de candidatos
+                                            maxCandidatoG(numel(maxCandidatosG)+1) = m; % %Se guarda la posicion donde se encontro el candidato en el array de candidatos
                                             maxCanalG = ventanaImagen(cordX(minPtoInteres(m)), cordY(minPtoInteres(m)),2); % Se actualiza el nuevo maximo en R
                                         end
                                      end
