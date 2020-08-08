@@ -73,8 +73,8 @@ classdef Tarea2 < handle
                                 Idilatada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(1)), cordY(minPtoInteres(1)), 3);
                             else  %criterio LEXICOGRAFICO
                                 
-                                if(ventanaImagen(eex+1,eey+1, 1) > ventanaImagen(eex+1,eey+1, 2) > ventanaImagen(eex+1,eey+1, 3))  % Si el R>G>B del pixel central
-                                    
+                                if(ventanaImagen(eex+1,eey+1, 1) > ventanaImagen(eex+1,eey+1, 2) && ventanaImagen(eex+1,eey+1, 2) > ventanaImagen(eex+1,eey+1, 3))  % Si el R>G>B del pixel central
+                                    disp('primer criterio lexicografico');
                                     maxCanalR=0;  % Maximo en canal R
                                     maxCanalG=0;   % Maximo en canal G
                                     maxCandidatosR=[]; % Candidatos maximos en R
@@ -194,7 +194,7 @@ classdef Tarea2 < handle
                                 Ierosionada(x-eex, y-eey, 3) = ventanaImagen(cordX(minPtoInteres(1)), cordY(minPtoInteres(1)), 3);
                             else  %criterio lexicografico
                                 % Caso en el que el `pixel central tiene R > G > B 
-                                if(ventanaImagen(eex+1,eey+1, 1) > ventanaImagen(eex+1,eey+1, 2) > ventanaImagen(eex+1,eey+1, 3))  % Si el R>G>B del pixel central
+                                if(ventanaImagen(eex+1,eey+1, 1) > ventanaImagen(eex+1,eey+1, 2) && ventanaImagen(eex+1,eey+1, 2) > ventanaImagen(eex+1,eey+1, 3))  % Si el R>G>B del pixel central
                                     
                                     maxCanalR=0;  % Maximo en canal R
                                     maxCanalG=0;   % Maximo en canal G
